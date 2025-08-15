@@ -41,6 +41,25 @@ function logFirstTwoBoxes(boxes) {
 
 logFirstTwoBoxes(boxes);
 
+/* O(n^2) --> QUADRATIC TIME COMPLEXITY
+	Means that the time it takes to run the function is proportional to the square of the size of the input.
+	The more items in the array, the longer it takes to find Nemo.
+	This is because the function has to iterate through the entire array for each item in the array.
+*/
+const boxes2 = [0, 1, 2, 3, 4, 5];
+
+function logAllPairsOfBoxes(boxes) {
+	for (let i = 0; i < boxes.length; i++) {
+		for (let j = 0; j < boxes.length; j++) {
+			console.log(boxes[i], boxes[j]);
+		}
+	}
+}
+
+logAllPairsOfBoxes(boxes2);
+
+// ------------------------------------------------------------------------------------------------
+
 /* RULE 1: WORST CASE SCENARIO
 	This means that we should always consider the worst case scenario when analyzing the time complexity of a function.
 	For example, if we have a function that finds the first item in an array, we should consider the worst case scenario
@@ -78,36 +97,53 @@ function printFirstItemThenNItems(items) {
 
 /* RULE 3: DIFFERENT TERMS FOR INPUTS
 	This means that we should consider the different terms for inputs when analyzing the time complexity of a function.
-	For example, if we have a function that finds the first item in an array, we should consider the different terms for inputs
-	which is when the item is not in the array.
+	For example, if we have a function that takes two different arrays as input parameters, we need to use different variables
+	like O(a + b) to represent their sizes, since the arrays could have different lengths. We can't just use O(n) when there
+	are multiple independent inputs.
 */
 
-const array3 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+const items = [1, 2, 3, 4, 5];
+const items2 = [1, 2, 3, 4, 5];
 
-function findItem3(array, item) {
-	for (let i = 0; i < array.length; i++) {
-		for (let j = 0; j < array.length; j++) {
-			console.log(array[i], array[j]);
-		}
-	}
+function compressBoxesTwice(items, items2) {
+	items.forEach(item => {
+		console.log(item);
+	});
+
+	items2.forEach(item => {
+		console.log(item);
+	});
 }
 
-findItem3(array3, 6);
+compressBoxesTwice(items, items2);
+
+// Result is O(n + m) because we are looping through two different arrays
+// and the time complexity is the sum of the time complexities of the two loops
+// O(n) + O(m) = O(n + m)
 
 /* RULE 4: DROP NON-DOMINANT TERMS
 	This means that we should drop non-dominant terms when analyzing the time complexity of a function.
-	For example, if we have a function that finds the first item in an array, we should drop the non-dominant term
+	For example, if we have a function that loops through an array and then loops through another array, we should drop the non-dominant term
 	which is when the item is not in the array.
 */
 
-const array4 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+const array4 = [1, 2, 3, 4, 5];
 
-function findItem4(array, item) {
-	for (let i = 0; i < array.length; i++) {
-		for (let j = 0; j < array.length; j++) {
-			console.log(array[i], array[j]);
+function printAllNumbersThenAllPairSums(numbers) {
+	for (let i = 0; i < numbers.length; i++) {
+		console.log(numbers[i]);
+	} // O(n)
+
+	for (let i = 0; i < numbers.length; i++) { // O(n)
+		for (let j = 0; j < numbers.length; j++) { // O(n)
+			console.log(numbers[i] + numbers[j]); // O(n)
 		}
-	}
+	} // O(n^2)
+
+	// Total time complexity is O(n + n^2)
+	// We drop the non-dominant term O(n) because it becomes insignificant as n grows
+	// O(n^2) is the dominant term
+	// So the time complexity is O(n^2)
 }
 
-findItem4(array4, 6);
+printAllNumbersThenAllPairSums(array4);
