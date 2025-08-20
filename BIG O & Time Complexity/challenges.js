@@ -38,5 +38,4 @@ function anotherFunChallenge(input) {
 
     let whoAmI = "I don't know"; // O(1)
   }
-  // 4 + 7n =
-  //
+  // 4 + 7n = O(n)
