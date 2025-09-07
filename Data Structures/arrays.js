@@ -98,7 +98,7 @@ function reverseString(string) {
   return reversedString.join('');
 }
 
-console.log(reverseString("hello"));
+// console.log(reverseString("hello"));
 
 /* Implement a method to merge two sorted arrays into a new sorted array */
 function mergeSortedArrays(array1, array2) {
@@ -111,13 +111,10 @@ function mergeSortedArrays(array1, array2) {
   if (array2.length === 0 && array1.length) {
     return array1;
   }
-  if (array1.length === 0 || array2.length === 0) {
-    throw new Error("Input must be an array with at least one element");
-  }
 
   const mergedArray = [];
-  let array1Item = array1[0]; // To keep track of the current item in array1, we start with the first item
-  let array2Item = array2[0]; // To keep track of the current item in array2, we start with the first item
+  let array1CurrentItem = array1[0]; // To keep track of the current item in array1, we start with the first item
+  let array2CurrentItem = array2[0]; // To keep track of the current item in array2, we start with the first item
   let i = 1; // To keep track of the current index in array1, we start with the second item
   let j = 1; // To keep track of the current index in array2, we start with the second item
 
@@ -129,29 +126,29 @@ function mergeSortedArrays(array1, array2) {
     -Repeat until one array is empty
     -Add all remaining items from the non-empty array
   */
-  while (array1Item || array2Item) {
-    /* Add array1Item if EITHER:
-      -Array2 is empty (we've used all its items)
+  while (array1CurrentItem || array2CurrentItem) {
+    /* Add array1CurrentItem if EITHER:
+      -Array2 current item is undefined (we've reached the end of the array)
         OR
       -The current item in array1 is smaller than the current item in array2
     */
-    if (!array2Item || array1Item < array2Item) {
-      mergedArray.push(array1Item);
-      array1Item = array1[i];
-      i++;
+    if (!array2CurrentItem || array1CurrentItem < array2CurrentItem) {
+      mergedArray.push(array1CurrentItem);
+      array1CurrentItem = array1[i]; //Update the current item in array1
+      i++; //Move to the next item in array1
     } else {
-      /* Add array2Item if BOTH:
-        -Array2 is NOT empty (array2Item exists)
+      /* Add array2CurrentItem if BOTH:
+        -Array2 is NOT empty (array2CurrentItem exists)
           AND
-        -Array2's item is smaller or equal
+        -Array2's current item is smaller or equal
       */
-      mergedArray.push(array2Item);
-      array2Item = array2[j];
-      j++;
+      mergedArray.push(array2CurrentItem);
+      array2CurrentItem = array2[j]; //Update the current item in array2
+      j++; //Move to the next item in array2
     }
   }
 
   return mergedArray;
 }
 
-console.log(mergeSortedArrays([1, 3, 7, 9], [2, 4, 6, 8, 10]));
+// console.log(mergeSortedArrays([1, 3, 7, 9], [2, 4, 6, 8, 10]));
