@@ -151,4 +151,4 @@ function mergeSortedArrays(array1, array2) {
   return mergedArray;
 }
 
-// console.log(mergeSortedArrays([1, 3, 7, 9], [2, 4, 6, 8, 10]));
+console.log(mergeSortedArrays([1, 3, 7, 8], [2, 4, 6, 9]));

@@ -24,13 +24,13 @@ class HashTable {
   set(key, value) {
     let address = this.#hash(key);
 
-    if (!this.data[address]) {
-      this.data[address] = [key, value];
-    } else {
-      this.data[address].push([key, value]);
+    if(!this.data[address]) {
+      this.data[address] = [];
     }
 
-    return true;
+    this.data[address].push([key, value]);
+
+    return this.data;
   }
 
   get(key) {
@@ -39,12 +39,30 @@ class HashTable {
     if (!this.data[address]) {
       throw new Error('Address not found');
     } else {
-      // Search through the array at that addressto find the matching key
+      // Search through the array at that address to find the matching key
       for (let [storedKey, value] of this.data[address]) {
+        // Compare the stored key with the key we are looking for
         if (storedKey === key) {
           return value;
         }
       }
     }
   }
+
+  keys() {
+    let arrayOfKeys = [];
+    // Visit every bucket to see every key/value pair of every bucket
+    for (let bucket of this.data) {
+      if (bucket) {
+        // Loop through the bucket and push the key to the array of keys
+        // Need to destructure to actually push just the key and not the key value pair
+        for (let [key, value] of bucket) {
+          arrayOfKeys.push(key);
+        }
+      }
+    }
+    return arrayOfKeys;
+  }
 }
+
+// [[key, value], [key, value], [key, value]]
