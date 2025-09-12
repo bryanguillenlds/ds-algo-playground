@@ -34,3 +34,35 @@ function maxSubArray(nums) {
 // currentSum 23
 // maxSum 23 // Answer
 
+/* Given an array of integers, return the first recurring character */
+function firstRecurringCharacterBruteForce(array) {
+  // Iterate over each element starting from the second one
+  for (let j = 1; j < array.length; j++) {  // Start from second element
+    // For each element at position j, check all previous elements
+    for (let i = 0; i < j; i++) {           // Check all previous elements
+      // If a previous element matches the current one, it's a duplicate
+      if (array[i] === array[j]) {
+        return array[j]; // Return the first duplicate encountered
+      }
+    }
+  }
+
+  // If no duplicates are found, return this message
+  return "No recurring characters found";
+}
+
+function firstRecurringCharacterOptimized(array) {
+  const uniqueSet = new Set();
+
+  for (let i = 0; i < array.length; i++) {
+    if(uniqueSet.has(array[i])) {
+      return array[i];
+    }
+    uniqueSet.add(array[i]);
+  }
+
+  return "No recurring characters found";
+}
+
+console.log(firstRecurringCharacterOptimized([2, 5, 5, 2, 3, 5, 1, 2, 4]));
+console.log(firstRecurringCharacterBruteForce([2, 5, 5, 2, 3, 5, 1, 2, 4]));
