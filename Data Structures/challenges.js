@@ -64,5 +64,95 @@ function firstRecurringCharacterOptimized(array) {
   return "No recurring characters found";
 }
 
-console.log(firstRecurringCharacterOptimized([2, 5, 5, 2, 3, 5, 1, 2, 4]));
-console.log(firstRecurringCharacterBruteForce([2, 5, 5, 2, 3, 5, 1, 2, 4]));
+// console.log(firstRecurringCharacterOptimized([2, 5, 5, 2, 3, 5, 1, 2, 4]));
+// console.log(firstRecurringCharacterBruteForce([2, 5, 5, 2, 3, 5, 1, 2, 4]));
+
+/* Two Sum Given an array of integers nums and an integer target,
+    return the indices i and j such that nums[i] + nums[j] == target and i != j.
+
+    You may assume that every input has exactly one pair of indices i and j that satisfy the condition.
+
+    Return the answer with the smaller index first.
+*/
+function twoSumBruteForce(nums, target) {
+  for(let i = 0; i < nums.length; i++) {
+    for (let j = i + 1; j < nums.length; j++) {
+      if (nums[i] + nums[j] === target) {
+        return [i, j];
+      }
+    }
+  }
+};
+
+function twoSumOptimized(nums, target) {
+  const complements = new Map();
+
+  for (let i = 0; i < nums.length; i++) {
+    const currentComplement = target - nums[i];
+
+    if (!complements.has(nums[i])) {
+      complements.set(currentComplement, i);
+    } else {
+      return [complements.get(nums[i]), i];
+    }
+  }
+};
+
+// console.log(twoSumBruteForce([3, 4, 5, 7], 9));
+// console.log(twoSumOptimized([3, 4, 5, 7], 9));
+
+/* Subarray Sum Equals K
+Given an array of integers nums and an integer k,
+return the total number of subarrays whose sum equals to k.
+*/
+function subArraySumEqualsTarget(nums, target) {
+  let hashMap = new Map();
+  let runningSum = 0;
+  let count = 0;
+
+  // Initialize: empty subarray has sum 0
+  hashMap.set(0, 1);
+
+  for (let i = 0; i < nums.length; i++) {
+    runningSum += nums[i];
+
+    // Check if we've seen (runningSum - target) before
+    if (hashMap.has(runningSum - target)) {
+      count += hashMap.get(runningSum - target);
+    }
+
+    // Store current runningSum (always)
+    hashMap.set(runningSum, (hashMap.get(runningSum) || 0) + 1);
+  }
+
+  return count;
+}
+
+function subArraySumEqualsKBruteForce(nums, k) {
+  let count = 0;  // Keep track of how many subarrays sum to k
+
+  // Step 1: Try every possible starting position for a subarray
+  for (let i = 0; i < nums.length; i++) {
+
+    // Step 2: For each starting position i, try every possible ending position
+    for (let j = i; j < nums.length; j++) {
+
+      // Step 3: Calculate the sum of subarray from position i to position j
+      let subarraySum = 0;
+      for (let k = i; k <= j; k++) {
+        subarraySum += nums[k];  // Add each element in the subarray
+      }
+
+      // Step 4: Check if this subarray sums to our target k
+      if (subarraySum === k) {
+        count++;  // Found a valid subarray, increment our count
+      }
+    }
+  }
+
+  return count;  // Return total number of subarrays that sum to k
+}
+
+console.log(subArraySumEqualsTarget([1, 2, 3, 2, 1, 3, 0], 3));
+console.log(subArraySumEqualsKBruteForce([1, 2, 3, 2, 1, 3, 0], 3));
+
