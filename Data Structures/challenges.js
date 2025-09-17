@@ -105,7 +105,7 @@ function twoSumOptimized(nums, target) {
 Given an array of integers nums and an integer k,
 return the total number of subarrays whose sum equals to k.
 */
-function subArraySumEqualsTarget(nums, target) {
+function subArraySumEqualsKOptimized(nums, target) {
   let hashMap = new Map();
   let runningSum = 0;
   let count = 0;
@@ -128,23 +128,23 @@ function subArraySumEqualsTarget(nums, target) {
   return count;
 }
 
-function subArraySumEqualsKBruteForce(nums, k) {
+function subArraySumEqualsKBCubic(nums, target) {
   let count = 0;  // Keep track of how many subarrays sum to k
 
   // Step 1: Try every possible starting position for a subarray
-  for (let i = 0; i < nums.length; i++) {
+  for (let startingSubArrIdx = 0; startingSubArrIdx < nums.length; startingSubArrIdx++) {
 
     // Step 2: For each starting position i, try every possible ending position
-    for (let j = i; j < nums.length; j++) {
+    for (let endingSubArrIdx = startingSubArrIdx; endingSubArrIdx < nums.length; endingSubArrIdx++) {
 
       // Step 3: Calculate the sum of subarray from position i to position j
       let subarraySum = 0;
-      for (let k = i; k <= j; k++) {
-        subarraySum += nums[k];  // Add each element in the subarray
+      for (let index = startingSubArrIdx; index <= endingSubArrIdx; index++) {
+        subarraySum += nums[index];  // Add each element in the subarray
       }
 
       // Step 4: Check if this subarray sums to our target k
-      if (subarraySum === k) {
+      if (subarraySum === target) {  // Now it's clear this is the target sum
         count++;  // Found a valid subarray, increment our count
       }
     }
@@ -153,6 +153,37 @@ function subArraySumEqualsKBruteForce(nums, k) {
   return count;  // Return total number of subarrays that sum to k
 }
 
-console.log(subArraySumEqualsTarget([1, 2, 3, 2, 1, 3, 0], 3));
-console.log(subArraySumEqualsKBruteForce([1, 2, 3, 2, 1, 3, 0], 3));
+function subArraySumEqualsKCuadratic(nums, target) {
+  let count = 0;  // Keep track of how many subarrays sum to k
+
+  // Step 1: Try every possible starting position for a subarray
+  for (let startingSubArrIdx = 0; startingSubArrIdx < nums.length; startingSubArrIdx++) {
+
+    // Step 2: The sum will start being equal to the first element of the current subarray
+    let subarraySum = nums[startingSubArrIdx];
+
+    // Step 3: Check if the starting point itself is a valid subarray equal to the target
+    if (subarraySum === target) {
+      count++;
+    }
+
+    // Step 4: Iterate starting at the element that immediately follows the current starting point of
+    // the subarray because we already checked if the starting point itself is a valid subarray
+    for (let endingSubArrIdx = startingSubArrIdx + 1; endingSubArrIdx < nums.length; endingSubArrIdx++) {
+      // Mathematical relationship: subarrSum = subarrSum + currentItem (subarray sum is the sum so far)
+      subarraySum += nums[endingSubArrIdx];  // Add each element in the subarray until we hit the end
+
+      // Step 5: Check if this subarray sums to the target
+      if (subarraySum === target) {
+        count++;  // Found a valid subarray, increment our count
+      }
+    }
+  }
+
+  return count;
+}
+
+console.log(subArraySumEqualsKOptimized([1, 2, 3, 2, 1, 3, 0], 3));
+console.log(subArraySumEqualsKBCubic([1, 2, 3, 2, 1, 3, 0], 3));
+console.log(subArraySumEqualsKCuadratic([1, 2, 3, 2, 1, 3, 0], 3));
 
