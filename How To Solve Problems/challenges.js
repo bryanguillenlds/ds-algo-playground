@@ -124,10 +124,15 @@ console.log(findCommonItemsBruteForce(['a', 'b', 'c', 'x'], ['z', 'y', 'i']));
 console.log(findCommonItemsBruteForce(['a', 'b', 'c', 'x'], ['z', 'y', 'x']));
 
 function findCommonItemsOptimized(array1, array2) {
+  // Check if input is valid
   // Loop through array1 and store the items in a hash map
   // Loop through array2 and check if the items are in the hash map
   // If it is, return true
   // If it is not, return false
+
+  if (!Array.isArray(array1) || !Array.isArray(array2)) {
+    return "Invalid input";
+  }
 
   const hashMap = new Map();
 

@@ -2,6 +2,7 @@ class Node {
   constructor(value) {
     this.value = value;
     this.next = null;
+    this.prev = null;
   }
 }
 
@@ -12,21 +13,25 @@ class LinkedList {
     this.length = 1;
   }
 
-  // Make current tail point to new node we are addding
+  // Make current tail point to new node we are appending
+  // Make new node.prev point to the soon to be OLD tail
   // Make new node the new tail
   // Increment the length of the list
   append(newNode) {
     this.tail.next = newNode;
+    newNode.prev = this.tail;
     this.tail = newNode;
     this.length++;
     return this;
   }
 
-  // make new node point to the current head
-  // update the head to be new nodeg
+  // make new node.next point to the current head
+  // make current head.prev point to the new node
+  // update the head to be new node
   // increment the length of the list
   prepend(newNode) {
     newNode.next = this.head;
+    this.head.prev = newNode;
     this.head = newNode;
     this.length++;
     return this;
@@ -59,10 +64,12 @@ class LinkedList {
       return this;
     }
 
-    let currentNode = this.traverseToIndex(index - 1);
+    let previousNode = this.traverseToIndex(index - 1);
 
-    newNode.next = currentNode.next;
-    currentNode.next = newNode;
+    newNode.next = previousNode.next;
+    previousNode.next.prev = newNode;
+    previousNode.next = newNode;
+    newNode.prev = previousNode;
     this.length++;
     return this;
   }
@@ -72,6 +79,7 @@ class LinkedList {
       const nodeToRemove = this.head;
       this.head = this.head.next;
       nodeToRemove.next = null;
+      this.head.prev = null;
       nodeToRemove.value = null;
       this.length--;
       return this;
@@ -79,9 +87,10 @@ class LinkedList {
 
     if (index === this.length - 1) {
       const nodeToRemove = this.tail;
-      const currentNode = this.traverseToIndex(index - 1);
-      currentNode.next = null;
-      this.tail = currentNode;
+      const previousNode = this.traverseToIndex(index - 1);
+      previousNode.next = null;
+      this.tail.prev = null;
+      this.tail = previousNode;
       nodeToRemove.next = null;
       nodeToRemove.value = null;
       this.length--;
@@ -90,43 +99,12 @@ class LinkedList {
 
     const previousNode = this.traverseToIndex(index - 1);
     const nodeToRemove = previousNode.next;
-    previousNode.next = previousNode.next.next;
+    previousNode.next = nodeToRemove.next;
+    nodeToRemove.next.prev = previousNode;
+    nodeToRemove.prev = null;
     nodeToRemove.next = null;
     nodeToRemove.value = null;
     this.length--;
-    return this;
-  }
-
-  // Before starting to traverse the list and updating the pointers:
-  // store the soon-to-be-old head so we can flip the pointers later
-  // set the previous to null (heead needs to point to null just as tail does)
-  // set the current node to be the head because that's where we will start traversing
-  // traverse until the the end of the list
-  // Set nextnode to be the next of the current
-  // set the current node's next to be the previous node so it points backwards
-  // update previous to be the current for the next iteration
-  // update the current to be the next node for the next iteration
-  reverse() {
-    if (!this.head.next) {
-      return this;
-    }
-
-    let oldHead = this.head;
-    let previousNode = null;
-    let currentNode = this.head;
-    let nextNode;
-
-    for (let i = 0; i < this.length; i++) {
-      nextNode = currentNode.next;
-      currentNode.next = previousNode;
-
-      previousNode = currentNode;
-      currentNode = nextNode;
-    }
-
-    this.head = previousNode;
-    this.tail = oldHead;
-
     return this;
   }
 }
