@@ -106,27 +106,39 @@ Given an array of integers nums and an integer k,
 return the total number of subarrays whose sum equals to k.
 */
 function subArraySumEqualsKOptimized(nums, target) {
-  let hashMap = new Map();
-  let runningSum = 0;
+  //start count at 0
   let count = 0;
+  //start currentsum at 0
+  let currentSum = 0;
 
-  // Initialize: empty subarray has sum 0
-  hashMap.set(0, 1);
+  //initialize hashmap with a sum of 0 and a count of 1 because there could be a valid
+  //subarray starting at the first index
+  let hashMap = new Map([[0, 1]]);
 
   for (let i = 0; i < nums.length; i++) {
-    runningSum += nums[i];
+    // Add current number to the sum
+    currentSum += nums[i];
 
-    // Check if we've seen (runningSum - target) before
-    if (hashMap.has(runningSum - target)) {
-      count += hashMap.get(runningSum - target);
+    // As we loop, ask if we have already seen a previous sum that is a valid subarray
+    // Math relation: target = currentSum - previousSum(of a validsubarray)
+    // Re-expressed: previousSum = currentSum - target, and that is what we should check for
+    if (hashMap.has(currentSum - target)) {
+      //if we have, increment the count by however many times we have seen that same previous sum before
+      //because it could have appeared many times
+      count += hashMap.get(currentSum - target); //this gets us the value of how many times we've seen it
     }
 
-    // Store current runningSum (always)
-    hashMap.set(runningSum, (hashMap.get(runningSum) || 0) + 1);
+    //Either update the times we've seen it (if we have) or initialize it as the 1st time
+    let timesSeen = (hashMap.get(currentSum) || 0) + 1;
+    //Always set the currentsum we just computed
+    //(if it's been seen before it'll just get updated with a new count value)
+    hashMap.set(currentSum, timesSeen);
   }
 
   return count;
 }
+
+// sum[i-j] - sum
 
 function subArraySumEqualsKBCubic(nums, target) {
   let count = 0;  // Keep track of how many subarrays sum to k
