@@ -101,12 +101,14 @@ class LinkedList {
   // store the soon-to-be-old head so we can flip the pointers later
   // set the previous to null (heead needs to point to null just as tail does)
   // set the current node to be the head because that's where we will start traversing
-  // traverse until the the end of the list
-  // Set nextnode to be the next of the current
+  // Traverse until the the end of the list
+  // set nextnode to be the next of the current
   // set the current node's next to be the previous node so it points backwards
   // update previous to be the current for the next iteration
   // update the current to be the next node for the next iteration
-  reverse() {
+  // After we are done traversing, set the head to be the previous node (previous is the node at the end of the traversal)
+  // and the tail to be the old head that we stored earlier
+  reverseWithTwoPointers() {
     if (!this.head.next) {
       return this;
     }
@@ -117,9 +119,12 @@ class LinkedList {
     let nextNode;
 
     for (let i = 0; i < this.length; i++) {
+      //store the next node before we break the link and make it point to the previous node
       nextNode = currentNode.next;
       currentNode.next = previousNode;
 
+
+      //Shift two pointers to the right
       previousNode = currentNode;
       currentNode = nextNode;
     }
@@ -128,5 +133,30 @@ class LinkedList {
     this.tail = oldHead;
 
     return this;
+  }
+
+  reverseRecursively(head) {
+    // Base case: if we've reached the end of the list, return null
+    if (!head) {
+      return null;
+    }
+
+    // Assume current node will be the new head (will be updated if there are more nodes)
+    let newHead = head;
+
+    // If there are more nodes after this one, recursively reverse the rest
+    if (head.next) {
+      // Recursively reverse everything after current node, get back the new head
+      newHead = this.reverseList(head.next);
+
+      // Flip the arrow: make the next node point back to current node
+      head.next.next = head;
+    }
+
+    // Break the old forward connection (current node now points to null)
+    head.next = null;
+
+    // Return the new head of the reversed list
+    return newHead;
   }
 }
