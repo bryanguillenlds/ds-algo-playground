@@ -195,7 +195,46 @@ function subArraySumEqualsKCuadratic(nums, target) {
   return count;
 }
 
-console.log(subArraySumEqualsKOptimized([1, 2, 3, 2, 1, 3, 0], 3));
-console.log(subArraySumEqualsKBCubic([1, 2, 3, 2, 1, 3, 0], 3));
-console.log(subArraySumEqualsKCuadratic([1, 2, 3, 2, 1, 3, 0], 3));
+// console.log(subArraySumEqualsKOptimized([1, 2, 3, 2, 1, 3, 0], 3));
+// console.log(subArraySumEqualsKBCubic([1, 2, 3, 2, 1, 3, 0], 3));
+// console.log(subArraySumEqualsKCuadratic([1, 2, 3, 2, 1, 3, 0], 3));
+
+/* Merge Two Linked Lists
+You are given two linked-lists that are sorted in non-decreasing order.
+Merge them into a single sorted linked-list and return it.
+LEETCODE 21
+*/
+function mergeTwoLinkedLists(list1, list2) {
+  if (!list1) return list2;
+  if (!list2) return list1;
+
+  //create a dummy starter node so that we can start the tail from there and advance it
+  //and not have to worry about special logic for deciding the head before we actually start iterating
+  const dummyStarterNode = new ListNode();
+  //at this point the tail and the dummy node point to the same thing, but once the tail
+  //is reassigned, the dummy will not change anymore and point to the head (which is what we have to return)
+  let currentTail = dummyStarterNode;
+
+  //loop until one of the lists is empty
+  while (list1 && list2) {
+    //check if the value of list 1 is smaller
+    if (list1.val < list2.val) {
+      //make previous tail point to the current node
+      currentTail.next = list1;
+      //update tail to be the current node
+      currentTail = list1;
+      //make current node be the next on the list
+      list1 = list1.next;
+    } else {
+      currentTail.next = list2;
+      currentTail = list2;
+      list2 = list2.next;
+    }
+  }
+
+  // attach the rest of whatever is next by pointing the currentTail to the list that still has nodes
+  currentTail.next = list1 || list2;
+
+  return dummyStarterNode.next; //return the head
+}
 
