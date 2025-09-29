@@ -238,3 +238,48 @@ function mergeTwoLinkedLists(list1, list2) {
   return dummyStarterNode.next; //return the head
 }
 
+
+/*Implement Queue using Two Stacks
+Leetcode 232
+*/
+class MyQueue {
+  //declaring as class fields beacuse we don't care about instantiating this class with constructor arguments
+  inputStack = [];
+  outputStack = [];
+
+  constructor() {
+  }
+
+  // Push elements normally. An array is a stack by default.
+  push(x) {
+      this.inputStack.push(x);
+  }
+
+  // Push elements from the input stack into the output stack by popping them off.
+  // Then pop from the output stack to get the last element (which is now the first as a queue);
+  pop() {
+      if (!this.outputStack.length) {
+          while(this.inputStack.length) {
+              this.outputStack.push(this.inputStack.pop());
+          }
+      }
+
+      return this.outputStack.pop();
+  }
+
+  // Same as pop, but we don't pop the element off. We just return the last element.
+  peek() {
+      if (!this.outputStack.length) {
+          while(this.inputStack.length) {
+              this.outputStack.push(this.inputStack.pop());
+          }
+      }
+
+      return this.outputStack[this.outputStack.length - 1];
+  }
+
+  // Check if the stacks are empty. If both are empty, the queue is empty.
+  empty() {
+      return !this.inputStack.length && !this.outputStack.length;
+  }
+}
