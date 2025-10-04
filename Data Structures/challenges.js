@@ -283,3 +283,37 @@ class MyQueue {
       return !this.inputStack.length && !this.outputStack.length;
   }
 }
+
+/* Valid Parentheses
+Leetcode 20
+*/
+function validParentheses(s) {
+  const stack = [];
+
+  const matchingPairs = {
+    '}': '{',
+    ')': '(',
+    ']': '['
+  };
+
+  for (let i = 0; i < s.length; i++) {
+    //If it is an open bracket (if it's not in the map of pairs for closings)
+    if (!matchingPairs[s[i]]){
+      //push the open bracket into stack for later comparison
+      stack.push(s[i]);
+    } else {
+      //if it is a closing bracket and if its pair value matches the top of the stack
+      if (matchingPairs[s[i]] === stack[stack.length - 1]) {
+        //pop the top of the stack (the open bracket) so that we can check the next closing bracket against the next open bracket
+        stack.pop();
+      } else {
+        //if it is a closing bracket and if its pair value does not match the top of the stack
+        //then it is not a valid closing bracket
+        return false;
+      }
+    }
+  }
+
+  //if stack is empty after checking all the brackets, then all the open brackets have been closed correctly, so it is valid.
+  return !stack.length;
+}
