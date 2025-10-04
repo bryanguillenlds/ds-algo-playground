@@ -238,3 +238,82 @@ function mergeTwoLinkedLists(list1, list2) {
   return dummyStarterNode.next; //return the head
 }
 
+
+/*Implement Queue using Two Stacks
+Leetcode 232
+*/
+class MyQueue {
+  //declaring as class fields beacuse we don't care about instantiating this class with constructor arguments
+  inputStack = [];
+  outputStack = [];
+
+  constructor() {
+  }
+
+  // Push elements normally. An array is a stack by default.
+  push(x) {
+      this.inputStack.push(x);
+  }
+
+  // Push elements from the input stack into the output stack by popping them off.
+  // Then pop from the output stack to get the last element (which is now the first as a queue);
+  pop() {
+      if (!this.outputStack.length) {
+          while(this.inputStack.length) {
+              this.outputStack.push(this.inputStack.pop());
+          }
+      }
+
+      return this.outputStack.pop();
+  }
+
+  // Same as pop, but we don't pop the element off. We just return the last element.
+  peek() {
+      if (!this.outputStack.length) {
+          while(this.inputStack.length) {
+              this.outputStack.push(this.inputStack.pop());
+          }
+      }
+
+      return this.outputStack[this.outputStack.length - 1];
+  }
+
+  // Check if the stacks are empty. If both are empty, the queue is empty.
+  empty() {
+      return !this.inputStack.length && !this.outputStack.length;
+  }
+}
+
+/* Valid Parentheses
+Leetcode 20
+*/
+function validParentheses(s) {
+  const stack = [];
+
+  const matchingPairs = {
+    '}': '{',
+    ')': '(',
+    ']': '['
+  };
+
+  for (let i = 0; i < s.length; i++) {
+    //If it is an open bracket (if it's not in the map of pairs for closings)
+    if (!matchingPairs[s[i]]){
+      //push the open bracket into stack for later comparison
+      stack.push(s[i]);
+    } else {
+      //if it is a closing bracket and if its pair value matches the top of the stack
+      if (matchingPairs[s[i]] === stack[stack.length - 1]) {
+        //pop the top of the stack (the open bracket) so that we can check the next closing bracket against the next open bracket
+        stack.pop();
+      } else {
+        //if it is a closing bracket and if its pair value does not match the top of the stack
+        //then it is not a valid closing bracket
+        return false;
+      }
+    }
+  }
+
+  //if stack is empty after checking all the brackets, then all the open brackets have been closed correctly, so it is valid.
+  return !stack.length;
+}
