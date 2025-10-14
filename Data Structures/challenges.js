@@ -317,3 +317,38 @@ function validParentheses(s) {
   //if stack is empty after checking all the brackets, then all the open brackets have been closed correctly, so it is valid.
   return !stack.length;
 }
+
+/* Leetcode 219
+Given an integer array nums and an integer k,
+return true if there are two distinct indices i and j in the array such that nums[i] == nums[j] and abs(i - j) <= k,
+otherwise return false.
+
+Translation: You have an array of numbers, and a number k.
+You need to find out if there are two of the same number that are not too far apart,
+Meaning their positions in the list are at most "k" distance apart.
+*/
+function containsNearbyDuplicate(nums, k) {
+  // If the window is 0 then it is invalid because two numbers can't fit there to compare
+  if (k === 0) return false;
+
+  // A set will be used as a sliding window to add or remove numbers that fit into the expected size
+  let seenNums = new Set();
+
+  for (let i = 0; i < nums.length; i++) {
+      //If we have seen it before (within the existing window), it is valid
+      if (seenNums.has(nums[i])) {
+          return true;
+      }
+
+      // if the size of the set is bigger than expected, delete the first number in the window
+      // so that when we add the current number, the window doesn't grow larger than "k"
+      if (seenNums.size >= k) {
+          seenNums.delete(nums[i-k]);
+      }
+
+      // add the number we just saw to the window
+      seenNums.add(nums[i]);
+  }
+
+  return false;
+};
