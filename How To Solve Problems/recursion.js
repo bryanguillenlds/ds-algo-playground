@@ -179,4 +179,22 @@ function recursiveRange(n){
 // 3 + 3
 // 6
 
-// console.log(recursiveRange(3));
+// console.log(recursiveRange(3))
+
+/* Write a recursive function called reverse which accepts a string and returns a new string in reverse. */
+function reverse(string) {
+  if (string.length === 1) return string;
+
+  return reverse(string.slice(1)).concat(string[0]);
+}
+
+//cat
+    //at
+        //t
+        //t
+    //t + a
+    //ta
+//ta + c
+//tac
+
+// console.log(reverse('cat'))

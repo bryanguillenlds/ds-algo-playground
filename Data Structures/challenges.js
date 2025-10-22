@@ -352,3 +352,72 @@ function containsNearbyDuplicate(nums, k) {
 
   return false;
 };
+
+
+/*
+Given two strings s and t, return true if t is an anagram of s, and false otherwise.
+An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.
+Leetcode 242
+*/
+function isAnagram(s, t) {
+  // If they are not the same length, invalid.
+  if (s.length !== t.length) return false;
+
+  let freqMap = {}; //store how many times a char has been seen
+
+  // Loop through first string to determine the frequencies
+  for (let i = 0; i < s.length; i++) {
+      // if we haven't seen the current char before, add to map and initialize as seen once
+      if (!freqMap[s[i]]) {
+          freqMap[s[i]] = 1;
+      } else {
+          // if we've seen it before, increment the frequency
+          freqMap[s[i]]++;
+      }
+  }
+
+  // Loop through second string to subtract the frequency
+  // if it matches a char we've seen in the first string
+  for (let j = 0; j < t.length; j++) {
+      // if it is a char that hasn't been seen at all in the first string,
+      // we already know it is NOT an anagram.
+      if (!freqMap[t[j]]) return false;
+
+      // if we have seen it in the first string, decrease it
+      freqMap[t[j]]--;
+  }
+
+  return true;
+}
+
+/*
+Given a string s, return true if it is a palindrome, or false otherwise.
+A phrase is a palindrome if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward.
+Leetcode 125
+*/
+function isPalindrome(string) {
+  if (string.length === 1) return true;
+
+  if (string.length < 1) return false;
+
+  // Normalize the string and remove nonalphanumeric chars
+  let s = string.toLowerCase().replace(/[^a-zA-Z0-9]/g, '');
+
+  // Set the two pointers to the first and last characters
+  let startPointer = 0;
+  let endPointer = s.length-1;
+
+  // Loop while the start pointer hasn't met the endpointer as they move
+  for (let i = 0; startPointer < endPointer; i++) {
+    // If the chars match, move forward and backwards to check next two chars
+    if (s[startPointer] === s[endPointer]) {
+      startPointer++;
+      endPointer--;
+    } else {
+      // if they don't match, we know is not a valid palindrome
+      return false;
+    }
+  }
+
+  return true;
+}
