@@ -103,11 +103,98 @@ function fibonacciRecursiveMemoized(number, memo = {}) {
   if (number === 0) return 0;
   if (number === 1) return 1;
 
-  // Calculate once and store in cache
+  // Calculate once and store in cache (memo object)
   // Store the value in the memo object
   memo[number] = fibonacciRecursiveMemoized(number - 2, memo) + fibonacciRecursiveMemoized(number - 1, memo);
 
   return memo[number];
 }
 
-console.log(fibonacciIterative(3));
+// console.log(fibonacciIterative(3));
+// console.log(fibonacciIterativeOptimized(3));
+// console.log(fibonacciRecursive(3));
+// console.log(fibonacciRecursiveMemoized(3));
+
+/* Write a function called power which accepts a base and an exponent.
+The function should return the power of the base to the exponent.
+This function should mimic the functionality of Math.pow()
+- do not worry about negative bases and exponents.
+*/
+function power(base, exponent){
+  if (exponent === 0) return 1;
+
+  return base * power(base, exponent-1);
+}
+// 2 ^ 4
+// 2 * (2, 3)
+  // 2 * (2, 2)
+      // 2 * (2, 1)
+          // 2 * (2, 0)
+              // 1
+          // 2 * 1
+          // 2
+      // 2 * 2
+      // 4
+  // 2 * 4
+  // 8
+// 2 * 8
+// 16
+
+// console.log(power(2, 4));
+
+/* Write a function called productOfArray which takes in an array of numbers and returns the product of them all. */
+function productOfArray(arr) {
+  if (arr.length === 0) return 1;
+
+  return arr[0] * productOfArray(arr.slice(1));
+}
+
+//[1,2,3]
+// 1 * [2, 3]
+  // 2 * [3]
+      // 3 * []
+          // 1
+      // 3 * 1
+      // 3
+  // 2 * 3
+  // 6
+// 1 * 6
+// 6
+
+// console.log(productOfArray([1,2,3]));
+
+/* Write a function called recursiveRange which accepts a number and adds up all the numbers from 0 to the number passed to the function. */
+function recursiveRange(n){
+  if (n === 0 || n === 1) return n;
+
+  return n + recursiveRange(n-1);
+}
+
+// 3
+// 3 + (2)
+  // 2 + (1)
+      // 1
+  // 2 + 1
+  // 3
+// 3 + 3
+// 6
+
+// console.log(recursiveRange(3))
+
+/* Write a recursive function called reverse which accepts a string and returns a new string in reverse. */
+function reverse(string) {
+  if (string.length === 1) return string;
+
+  return reverse(string.slice(1)).concat(string[0]);
+}
+
+//cat
+    //at
+        //t
+        //t
+    //t + a
+    //ta
+//ta + c
+//tac
+
+// console.log(reverse('cat'))
