@@ -51,7 +51,7 @@ function selectionSort(array) {
       }
     }
 
-    //After we've determined the smallest, swap with current first elementee
+    //After we've determined the smallest, swap with current first element
     //Only swap if the smallest isn't already in the right position
     if (i !== smallest) {
       array[i] = array[smallest];
@@ -92,4 +92,70 @@ function insertionSort(array) {
   }
 
   return array;
+}
+
+function mergeSortedArrays(array1, array2) {
+  // If either array is empty, return the other array
+  if (array1.length === 0) return array2;
+  if (array2.length === 0) return array1;
+
+  //What do I need to track or store?
+  // - The current item in array1 (item 0)
+  // - The current item in array2 (item 0)
+  // - The current index in array1 (start from the second item? I don't see the need for this, couldn't it be item 0?)
+  // - The current index in array2 (start from the second item? I don't see the need for this, couldn't it be item 0?)
+  // - The merged array (empty to begin with)
+  let currentItem1 = array1[0];
+  let currentItem2 = array2[0];
+  let i = 0;
+  let j = 0;
+  let mergedArray = [];
+
+  // What are the conditions for the loop?
+  // Loop while there's still items in at least one of the arrays (check if current item exists, if not, break)
+  // - IF the item in array2 does not exists (meaning we reached the end of that array)
+  // OR
+  // item from array1 is smaller than the item from array2
+  //    - push that item into array
+  //    - increase index
+  //    - set current item to be the next for next time?
+  // - ELSE (if the item from array2 exists (meaning array is not empty)
+  // AND
+  // the item from array2 is the smaller item)
+  //    - push that item into array
+  //    - increase index
+  //    - set current item to be the next for next time?
+  //(the above conditions will make sure leftover items are pushed if the other array has already been exhausted)
+  while(currentItem1 !== undefined || currentItem2 !== undefined) {
+    if(currentItem2 === undefined || currentItem1 < currentItem2) {
+      mergedArray.push(currentItem1);
+      i++;
+      currentItem1 = array1[i];
+    } else {
+      mergedArray.push(currentItem2);
+      j++;
+      currentItem2 = array2[j];
+    }
+  }
+
+  // Return mergedarray
+  return mergedArray;
+}
+
+function mergeSort(array) {
+  // Base case: If the array is empty or has one element, return the array
+  if (array.length === 0 || array.length === 1) return array;
+
+  // Recursive case: Break in halves
+  const midPoint = Math.floor(array.length / 2);
+  const left = array.slice(0, midPoint);
+  const right = array.slice(midPoint);
+
+  // Each mergeSort(...) call stops at the line where it calls another mergeSort and waits for that result.
+	// The recursion goes down the left side first (depth-first), all the way to base cases,
+  const sortedLeft = mergeSort(left);
+  const sortedRight = mergeSort(right);
+
+  // Recursion unwinds (returns), then does the right side, then merges.
+  return mergeSortedArrays(sortedLeft, sortedRight);
 }
