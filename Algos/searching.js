@@ -86,7 +86,7 @@ function BFSearch(tree) {
   return visitedNodes;
 }
 
-// THis function assumes it will be called with the initial queue (with the root node of the tree),
+// This function assumes it will be called with the initial queue (with the root node of the tree),
 // visited nodes list (empty), and queue front index of 0.
 function BFSearchRecursive(nodeQueue, visitedNodes, queueFront = 0) {
   // Base case: if queue front index is at or beyond the queue length,
@@ -112,4 +112,66 @@ function BFSearchRecursive(nodeQueue, visitedNodes, queueFront = 0) {
 
   // Recursively process the next node in the queue (increment queueFront index)
   return BFSearchRecursive(nodeQueue, visitedNodes, queueFront + 1);
+}
+
+// For preorder:
+// Visit node, then traverse left subtree of each current node,
+// then traverse right subtree of each current node
+function preOrderTraversal(node, list) {
+  // Base case: if the node is null (meaning we've reached the end of the tree), return/exit
+  if (!node) {
+    return;
+  }
+
+  // Add the node's value to the list
+  list.push(node.value);
+
+  // Recursively visit left subtree of each current node
+  preOrderTraversal(node.left, list);
+
+  // Recursively visit right subtree of each current node
+  preOrderTraversal(node.right, list);
+}
+
+function DFSearchPreorder(tree) {
+  if (!tree || !tree.root) {
+    return [];
+  }
+
+  let visitedNodes = [];
+  const currentNode = tree.root;
+
+  preOrderTraversal(currentNode, visitedNodes);
+
+  return visitedNodes; // return the list of visited nodes
+}
+
+// For Postorder: Visit every left subtree first, then every right subtree of each current node, and then the current node
+function postOrderTraversal(node, list) {
+  // Base case: if the node is null (meaning we've reached the end of the tree), return/exit
+  if (!node) {
+    return;
+  }
+
+  // Recursively visit left subtree of each current node
+  postOrderTraversal(node.left, list);
+
+  // Recursively visit right subtree of each current node
+  postOrderTraversal(node.right, list);
+
+  // Add the node's value to the list
+  list.push(node.value);
+}
+
+function DFSearchPostorder(tree) {
+  if (!tree || !tree.root) {
+    return [];
+  }
+
+  let visitedNodes = [];
+  const currentNode = tree.root;
+
+  postOrderTraversal(currentNode, visitedNodes);
+
+  return visitedNodes; // return the list of visited nodes
 }
