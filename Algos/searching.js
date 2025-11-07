@@ -210,3 +210,41 @@ function DFSearchInorder(tree) {
 
   return visitedNodes; // return the list of visited nodes
 }
+
+// This helper function assumes we have access to the adjacency list of the graph.
+//* Base case: recursion naturally stops when the loop finishes iterating through all neighbors
+// (either because all neighbors are visited, or the node has no neighbors)
+function GraphDFSRecursiveTraversal(node, list, visitedNodes, adjacencyList) {
+  // Add the node's value to the list to be returned
+  list.push(node);
+
+  // Add the node's value to the visited nodes obj (mark as visited)
+  visitedNodes[node] = true;
+
+  // Loop through the node's neighbors (in the adjacency list)
+  for (let neighbor of adjacencyList[node]) {
+    // if the neighbor of the current iteration has not been visited, recursively visit it
+    if (!visitedNodes[neighbor]) {
+      GraphDFSRecursiveTraversal(neighbor, list, visitedNodes, adjacencyList);
+    }
+  }
+}
+
+function GraphDFSRecursive(node, adjacencyList) {
+  // (Guard clause): if the node is null or undefined, return/exit
+  // (handles invalid starting nodes)
+  if (!node) {
+    return [];
+  }
+
+  // List to return nodes
+  let list = [];
+
+  // Store visited nodes in obj
+  let visitedNodes = {};
+
+  // Recursive helper function to visit all neighbors of the current node
+  GraphDFSRecursiveTraversal(node, list, visitedNodes, adjacencyList);
+
+  return list; // return the list of visited nodes
+}
