@@ -114,9 +114,10 @@ function BFSearchRecursive(nodeQueue, visitedNodes, queueFront = 0) {
   return BFSearchRecursive(nodeQueue, visitedNodes, queueFront + 1);
 }
 
-// For preorder:
-// Visit node, then traverse left subtree of each current node,
-// then traverse right subtree of each current node
+//* For preorder:
+// Visit current node, then visit left subtree of each current node,
+// then visit right subtree of each current node
+// (For each node: Parent -> Left Children -> Right Children)
 function preOrderTraversal(node, list) {
   // Base case: if the node is null (meaning we've reached the end of the tree), return/exit
   if (!node) {
@@ -146,7 +147,9 @@ function DFSearchPreorder(tree) {
   return visitedNodes; // return the list of visited nodes
 }
 
-// For Postorder: Visit every left subtree first, then every right subtree of each current node, and then the current node
+//* For Postorder:
+// Visit every node in left subtree first, then every node in right subtree of each current node, and then the current node
+// (For each node: Left Children -> Right Children -> Parent)
 function postOrderTraversal(node, list) {
   // Base case: if the node is null (meaning we've reached the end of the tree), return/exit
   if (!node) {
@@ -172,6 +175,38 @@ function DFSearchPostorder(tree) {
   const currentNode = tree.root;
 
   postOrderTraversal(currentNode, visitedNodes);
+
+  return visitedNodes; // return the list of visited nodes
+}
+
+//* For Inorder:
+// Visit every node in left subtree first, then the current node, and then every node in right subtree of each current node.
+// (For each node: Left Children -> Parent -> Right Children)
+function inOrderTraversal(node, list) {
+  // Base case: if the node is null (meaning we've reached the end of the tree), return/exit
+  if (!node) {
+    return;
+  }
+
+  // Recursively visit left subtree of each current node
+  inOrderTraversal(node.left, list);
+
+  // Add the node's value to the list
+  list.push(node.value);
+
+  // Recursively visit right subtree of each current node
+  inOrderTraversal(node.right, list);
+}
+
+function DFSearchInorder(tree) {
+  if (!tree || !tree.root) {
+    return [];
+  }
+
+  let visitedNodes = [];
+  const currentNode = tree.root;
+
+  inOrderTraversal(currentNode, visitedNodes);
 
   return visitedNodes; // return the list of visited nodes
 }
