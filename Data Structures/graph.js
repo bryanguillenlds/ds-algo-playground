@@ -18,7 +18,7 @@ const adjacentListObject = {
 
 // ADJACENT MATRIX with arrays
 // the index is the actual value of the node
-// the value is 1 if the node is connected to the node at the index, 0 otherwise.
+// the value is 1 if the node is connected to the node at that index, 0 otherwise.
 // node 0 is connected to node 2, node 1 is connected to node 2 and node 3, etc.
 const adjacentMatrixArray = [
   [0, 0, 1, 0],
