@@ -248,3 +248,41 @@ function GraphDFSRecursive(node, adjacencyList) {
 
   return list; // return the list of visited nodes
 }
+
+// DFS For Graph Iterative
+function GraphDFSIterative(node, adjacencyList) {
+  // List to return nodes
+  let list = [];
+
+  // Store visited nodes in obj
+  let visitedNodes = {};
+
+  // Stack to store nodes to visit
+  // Why stack? Because we want to visit the last added node/neighbor first (LIFO)
+  let stackToVisit = [node];
+
+  // While the stack is not empty (meaning there are nodes/neighbors left to process), keep traversing
+  while (stackToVisit.length > 0) {
+    // Get (and remove) last node/neighbor in stack (list to visit)
+    let nodeToVisit = stackToVisit.pop();
+
+    // If node to visit wasn't already visited
+    if (!visitedNodes[nodeToVisit]) {
+      // visit it, add it to list to be returned
+      list.push(nodeToVisit);
+
+      // mark it as visited
+      visitedNodes[nodeToVisit] = true;
+
+      // loop through neighbors to add neighbors to stack of nodes to visit
+      for (const neighbor of adjacencyList[nodeToVisit]) {
+        //only push if neighbor hasn't been visited already
+        if (!visitedNodes[neighbor]) {
+          stackToVisit.push(neighbor);
+        }
+      }
+    }
+  }
+
+  return list; // return the list of visited nodes
+}
