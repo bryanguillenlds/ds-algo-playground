@@ -286,3 +286,46 @@ function GraphDFSIterative(node, adjacencyList) {
 
   return list; // return the list of visited nodes
 }
+
+// BFS For Graph Iterative
+// Assumes access to adjacencyList
+function GraphBFSIterative(node, adjacencyList) {
+  // List to return nodes
+  let list = [];
+
+  // Store visited nodes in obj
+  let visitedNodes = {};
+
+  // Queue to store nodes to visit
+  // Why Queue? Because we want to visit the neighbor nodes in the order they were added to the queue (FIFO)
+  // so we avoid going to the next level before all neighbors have been visited
+  let queueToVisit = [node];
+
+  // To keep track of the node that has to be dequeued
+  let queueFront = 0
+
+  // Mark the starting node as visited
+  visitedNodes[node] = true;
+
+  // Keep traversing while the front of the queue is still within
+  // the queue of nodes to visit (meaning there are nodes left to process)
+  while (queueFront < queueToVisit.length) {
+    // Get current element that has to be dequeued and increase index to the next AFTER we retrieve it (postfix increment ++)
+    // This is better than unshift which would add time complexity
+    let currentNodeOnQueue = queueToVisit[queueFront++];
+
+    // Push to list
+    list.push(currentNodeOnQueue);
+
+    // Loop through neighbors to add neighbors to queue of nodes to visit
+    for (const neighbor of adjacencyList[currentNodeOnQueue]) {
+      // Only push if neighbor hasn't been visited already
+      if (!visitedNodes[neighbor]) {
+        visitedNodes[neighbor] = true;
+        queueToVisit.push(neighbor);
+      }
+    }
+  }
+
+  return list;
+}
